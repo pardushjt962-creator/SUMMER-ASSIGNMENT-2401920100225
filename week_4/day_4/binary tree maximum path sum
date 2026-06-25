@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int maxSum = INT_MIN;
+
+    int dfs(TreeNode* node) {
+        if (!node) return 0;
+
+        int leftGain = max(0, dfs(node->left));
+        int rightGain = max(0, dfs(node->right));
+
+        // Path passing through the current node
+        int currentPath = node->val + leftGain + rightGain;
+
+        // Update global maximum
+        maxSum = max(maxSum, currentPath);
+
+        // Return the maximum gain to the parent
+        return node->val + max(leftGain, rightGain);
+    }
+
+    int maxPathSum(TreeNode* root) {
+        dfs(root);
+        return maxSum;
+    }
+};
